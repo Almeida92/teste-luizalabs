@@ -1,0 +1,1 @@
+console.log("Hello React Scaffolder 2");
