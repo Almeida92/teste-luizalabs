@@ -26,4 +26,7 @@ module.exports = {
             template: './src/index.html'
         })
     ],
+    resolve: {
+        extensions: ['.jsx', '.js', '.json']
+    }
 };
