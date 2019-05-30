@@ -18,13 +18,15 @@ class MapBox extends Component {
     }
 
     componentDidMount() {
-        axios.get(`${URL}${this.props.endereco.logradouro.replace(' ', '%20')}&key=${KEY}`)
-            .then(resp => {
-                this.setState({
-                    loc: resp.data.results[0].geometry,
-                    loading: false
+        if (this.props.endereco) {
+            axios.get(`${URL}${this.props.endereco.logradouro.replace(' ', '%20')}&key=${KEY}`)
+                .then(resp => {
+                    this.setState({
+                        loc: resp.data.results[0].geometry,
+                        loading: false
+                    })
                 })
-            })
+        }
     }
 
     renderMap = loc => {

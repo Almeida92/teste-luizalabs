@@ -3,7 +3,9 @@ import { Button, Jumbotron, Col, Alert } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import If from '../if';
-import MapBox from './map/mapBox'
+import MapBox from './map/mapBox';
+import InputMask from 'react-input-mask';
+import MaterialInput from '@material-ui/core/Input';
 
 const URL = 'http://viacep.com.br/ws/'
 
@@ -32,13 +34,23 @@ class FormCep extends Component {
 
         axios.get(`${URL}${this.state.cep}/json/`)
             .then(resp => {
-                this.setState({
-                    cep: this.state.cep,
-                    erro: this.state.erro,
-                    msg: this.state.msg,
-                    map: true,
-                    data: resp.data
-                });
+                if (!resp.data.erro) {
+                    this.setState({
+                        cep: this.state.cep,
+                        erro: this.state.erro,
+                        msg: this.state.msg,
+                        map: true,
+                        data: resp.data
+                    });
+                }else {
+                    this.setState({
+                        cep: this.state.cep,
+                        erro: true,
+                        msg: 'Cep não encontrado',
+                        map: false,
+                        data: {}
+                    });
+                }
                 
             })
             .catch(err => {
@@ -46,7 +58,8 @@ class FormCep extends Component {
                     cep: this.state.cep,
                     erro: true,
                     msg: 'Cep não encontrado',
-                    data: {}
+                    data: {},
+                    map: false
                 });
             })
     }
@@ -82,8 +95,11 @@ class FormCep extends Component {
                                     CEP
                                 </Form.Label>
                                 <Col sm="8">
-                                    <Form.Control 
-                                        type="text" placeholder="00000-000" value={this.state.cep} onChange={this.handleChange} />
+                                    <InputMask mask="99999-999" value={this.state.cep} onChange={this.handleChange}>
+                                        {(inputProps) => <MaterialInput {...inputProps} type="tel" disableUnderline />}
+                                    </InputMask>
+                                    {/* <Form.Control 
+                                        type="text" placeholder="00000-000" value={this.state.cep} onChange={this.handleChange} /> */}
                                 </Col>
                                 <Col sm="2">
                                     <Button variant="primary" onClick={this.consultar_cep}>Buscar</Button>
