@@ -7,7 +7,7 @@ import MapBox from './map/mapBox';
 import InputMask from 'react-input-mask';
 import MaterialInput from '@material-ui/core/Input';
 
-const URL = 'http://viacep.com.br/ws/'
+const URL = 'https://viacep.com.br/ws/'
 
 class FormCep extends Component {
     constructor(props) {
